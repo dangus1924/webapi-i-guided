@@ -1,12 +1,17 @@
+//Libraries
 const express = require('express');// this is the common import way for node libaray
 
+// Other files
+const db = require('./data/hubs-model.js')// because we want to work with this data base we need to import it 
+
+//Global objects
 const server = express();// here is where we call the imported express
 
 //What happens on a GET request 
 //reques handler
 // the '/' is the route of the request 
 server.get('/', (req, res) => { //req and res is the two hommies think of req as anything incoming and res as anything outgoing.
-        //Let's talk about whats happening in the backend when sending a res look at line 19 then continue to line 10
+        //Let's talk about whats happening in the backend when sending a res look at 
         //server wants to know 
         //what is the datatype?
             //-data is what tyoe of data we are sending back, because we are use express it simplified everthing for us. 
@@ -18,6 +23,21 @@ server.get('/', (req, res) => { //req and res is the two hommies think of req as
             //we are sending back hello world
         res.send('Hello World'); //notice we use res because we are sending a response back to the user that request information from the server. 
 });
+
+// GET /hubs
+server.get('/hubs', (req, res) => {
+    db.find() //here we are getting the hubs from the database
+    //we do this because we are working with promises
+    .then(hubs => {
+        res.send(hubs);
+    })
+    .catch(err => {
+        res.status(500).json({
+            err: err
+        })
+    })
+});
+
 // notice this new route, when the user goes to localhost:8080/now
 server.get('/now', (req, res) => {
     //we are using a Date object this is not specific to the backend
