@@ -69,16 +69,67 @@ server.delete('/hubs/:id', (req, res) => {
     const { id } = req.params;    
     db.remove(id)
     .then(deletedHub => {
-
-    });
-        
+        if (deletedHub) {
+            res.json(deletedHub);
+        } else {
+            res.status(404).json({
+                message: 'invalid hub id'
+            })
+        }
+       
+    })        
     .catch(err => {
         res.status(500).json({
-            err: err,
-            message: 'failed to delete hub'
-        });
-    });
-});
+          err: err,
+          message: 'failed to delete hub'  
+        })
+        
+    })
+})
+
+//put request
+server.put('/hubs/:id', (req, res) => {
+    const { id } = req.params;
+    const changes = req.body;
+    db.update(id, changes)        
+        .then(updated => {
+            if (updated) {
+                res.json(updated)
+            } else {
+                res.status(404).json({
+                message: 'invalid hub id'
+            })
+        }
+
+        })
+        .catch(err => {
+        res.status(500).json({
+          err: err,
+          message: 'failed to delete hub'  
+        })
+        
+    })
+})
+
+server.get('/hubs/:id', (req, res) => {
+    const { id } = req.params;
+    db.findById(id)
+        .then(hub => {
+            if (hub) {
+                res.json(hub);
+            } else {
+                res.status(404).json({
+                    message: 'Invalid hub id'
+                })
+            }
+        })
+        .catch(err => {
+            res.status(500).json({
+              err: err,
+              message: 'failed to get hub'  
+            })            
+        })
+})
 
 // notice this new route, when the user goes to localhost:8080/now
 server.get('/now', (req, res) => {
