@@ -6,16 +6,27 @@ const server = express();// here is where we call the imported express
 //reques handler
 // the '/' is the route of the request 
 server.get('/', (req, res) => { //req and res is the two hommies think of req as anything incoming and res as anything outgoing.
+        //Let's talk about whats happening in the backend when sending a res look at line 19 then continue to line 10
+        //server wants to know 
+        //what is the datatype?
+            //-data is what tyoe of data we are sending back, because we are use express it simplified everthing for us. 
+            //A good example would be <h1>Hello World</h1> inside the res.send
+        //what is my status code?
+            //- the default res code that in here is actual status code 200 because we see that it is sent successfully 
+            //you can find this in your network tab.
+        //what am I sending back?
+            //we are sending back hello world
         res.send('Hello World'); //notice we use res because we are sending a response back to the user that request information from the server. 
 });
 // notice this new route, when the user goes to localhost:8080/now
 server.get('/now', (req, res) => {
+    //we are using a Date object this is not specific to the backend
     const now = new Date().toISOString(); // this is a simple date you can refer to https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString
     res.send(now); // just like above we are sending something back because we are using the res.
 });
 
 
-
+//()
 
 
 
