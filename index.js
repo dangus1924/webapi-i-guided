@@ -29,9 +29,13 @@ server.get('/hubs', (req, res) => {
     db.find() //here we are getting the hubs from the database
     //we do this because we are working with promises
     .then(hubs => {
+        // console.log('hubs', hubs) // console log will show in the node terminal because we are working in the backend not the frontend
         res.send(hubs);
     })
     .catch(err => {
+        //we use status code 500 because that is the default which means catch all errors
+    //     500 Internal Server Error:
+    // The server has encountered a situation it doesn't know how to handle.
         res.status(500).json({
             err: err
         })
