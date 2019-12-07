@@ -7,6 +7,10 @@ const db = require('./data/hubs-model.js')// because we want to work with this d
 //Global objects
 const server = express();// here is where we call the imported express
 
+//middleware
+server.use(express.json());
+// don't overthink this middleware there will be an entire lesson on this, but you essentially needs this for the req.body
+
 //What happens on a GET request 
 //reques handler
 // the '/' is the route of the request 
@@ -43,7 +47,8 @@ server.get('/hubs', (req, res) => {
 });
 
 // POST request
-server.post('/', (req, res) => {
+//you can check this by using postman, insomina or create a frontend app
+server.post('/hubs', (req, res) => {
     const newHub = req.body; //this is done because we are looking for what the frontend user is sending, remember req is what the user is sending.
                                 //working with the frontend we send a object/data to the post req.body is looking for that data in the body.
     db.add(newHub) 
@@ -53,11 +58,27 @@ server.post('/', (req, res) => {
     .catch(err => {
         res.status(500).json({
           err: err,
-          message: 'failed to create ne hub'  
+          message: 'failed to create new hub'  
         })
         
     })
 })
+
+//delete
+server.delete('/hubs/:id', (req, res) => {
+    const { id } = req.params;    
+    db.remove(id)
+    .then(deletedHub => {
+
+    });
+        
+    .catch(err => {
+        res.status(500).json({
+            err: err,
+            message: 'failed to delete hub'
+        });
+    });
+});
 
 // notice this new route, when the user goes to localhost:8080/now
 server.get('/now', (req, res) => {
