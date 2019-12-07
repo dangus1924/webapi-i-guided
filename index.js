@@ -42,6 +42,23 @@ server.get('/hubs', (req, res) => {
     })
 });
 
+// POST request
+server.post('/', (req, res) => {
+    const newHub = req.body; //this is done because we are looking for what the frontend user is sending, remember req is what the user is sending.
+                                //working with the frontend we send a object/data to the post req.body is looking for that data in the body.
+    db.add(newHub) 
+    .then(hub => {
+        res.status(201).json(hub);
+    })
+    .catch(err => {
+        res.status(500).json({
+          err: err,
+          message: 'failed to create ne hub'  
+        })
+        
+    })
+})
+
 // notice this new route, when the user goes to localhost:8080/now
 server.get('/now', (req, res) => {
     //we are using a Date object this is not specific to the backend
